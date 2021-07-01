@@ -26,8 +26,7 @@
     </adonisControls:AdonisWindow.TitleBarContent>
 
     <StackPanel Margin="20" >
-        <Canvas Name="GameArea" ClipToBounds="True" Width="700" Height="150">
-            
+        <Canvas Name="GuessingArea" ClipToBounds="True" Width="700" Height="150">
         </Canvas>
         <TextBlock Text="Hint: It's the capital of "/>
         <Grid>
@@ -52,7 +51,7 @@
             <Button x:Name="GuessWordButton" Content="Whole word"/>
         </StackPanel>
         <TextBlock Text="Type in your guess: "/>
-        <TextBox></TextBox>
+        <TextBox x:Name="typeYourGuessTextbox"/>
         <Button Content="Guess!"></Button>
     </StackPanel>
 </adonisControls:AdonisWindow>

@@ -11,4 +11,10 @@
     <PackageReference Include="AdonisUI.NET5" Version="1.17.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\countries_and_capitals.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
