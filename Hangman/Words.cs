@@ -26,8 +26,8 @@ namespace Hangman
             foreach (var item in countriesAndCapitals)
             {
                 string[] countryAndCapital = item.Split(" | ");
-                countries.Add(countryAndCapital[0]);
-                capitals.Add(countryAndCapital[1]);
+                countries.Add(countryAndCapital[0].Trim());
+                capitals.Add(countryAndCapital[1].Trim());
             }
         }
 

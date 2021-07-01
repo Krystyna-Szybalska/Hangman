@@ -43,12 +43,12 @@ namespace Hangman
 
             for (int i = 0; i < currentCapital.Length; i++)
             {
-                if (currentCapital[i-1] == ' ')
+                if (currentCapital[i] == ' ')
                 {
                     var col = new DataGridTextColumn
                     {
                         Header = " ",
-                        MinWidth = 20,
+                        Width = '*',
                     };
                 }
 
@@ -57,7 +57,7 @@ namespace Hangman
                     var col = new DataGridTextColumn
                     {
                         Header = "_",
-                        MinWidth = 20,
+                        Width = '*',
                     };
 
                     letterGrid.Columns.Add(col);

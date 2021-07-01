@@ -50,8 +50,11 @@
             <Button x:Name="GuessLetterButton" Content="Letter"/>
             <Button x:Name="GuessWordButton" Content="Whole word"/>
         </StackPanel>
-        <TextBlock Text="Type in your guess: "/>
-        <TextBox x:Name="typeYourGuessTextbox"/>
-        <Button Content="Guess!"></Button>
+        
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Type in your next guess: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox x:Name="typeYourGuessTextbox" Width="300" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"/>
+            <Button Content="Guess!" Width="150" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"/>
+        </StackPanel>
     </StackPanel>
 </adonisControls:AdonisWindow>
