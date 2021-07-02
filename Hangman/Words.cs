@@ -19,6 +19,7 @@ namespace Hangman
         {
             return countries;
         }
+        public int listIndex { get; set; }
 
         public Words()
         {
@@ -36,6 +37,7 @@ namespace Hangman
             var random = new Random();
             int index = random.Next(list.Count);
             string word = list[index];
+            listIndex = index;
             return word;
         }
     }

@@ -40,13 +40,14 @@ namespace Hangman
         {
             Words words = new();
             currentCapital = words.SelectRandomWord(words.GetListOfCapitals());
+            hintTextBlock.Text = string.Format("Hint: It's the capital of {0}", words.GetListOfCountries()[words.listIndex]);
             wrongGuesses.Clear();
             currentCapitalLetters.Clear();
             currentCapitalLetters.AddRange(currentCapital.ToUpper());
         }
         private void CreateGuessingArea()
         {
-            int letterX = 0; 
+           int letterX = 400 / (currentCapital.Length+1); 
 
             for (int i = 0; i < currentCapital.Length; i++)
             {
@@ -57,13 +58,14 @@ namespace Hangman
                         MinWidth = 20,
                         Height = 150,
                         Text = " ",
-                        FontSize = 85,
-                };
+                        FontSize = 75,
+                        TextAlignment = TextAlignment.Center
+                    };
 
                     GuessingArea.Children.Add(letterLabel);
                     Canvas.SetBottom(letterLabel, 0);
                     Canvas.SetLeft(letterLabel, letterX);
-                    letterX += 700 / currentCapital.Length;
+                    letterX += 800 / (currentCapital.Length + 1);
                 }
 
                 else
@@ -72,14 +74,15 @@ namespace Hangman
                     {
                         MinWidth = 20,
                         Height = 150,
-                        FontSize = 85,
+                        FontSize = 75,
                         Text = "_",
-                    };
+                        TextAlignment = TextAlignment.Center
+                };
 
                     GuessingArea.Children.Add(letterLabel);
-                    Canvas.SetBottom(letterLabel, 0);
-                    Canvas.SetLeft(letterLabel, letterX);
-                    letterX += 700 / currentCapital.Length;
+                   Canvas.SetBottom(letterLabel, 0);
+                   Canvas.SetLeft(letterLabel, letterX);
+                   letterX += 800 / (currentCapital.Length + 1);
                 }
             }
         }
