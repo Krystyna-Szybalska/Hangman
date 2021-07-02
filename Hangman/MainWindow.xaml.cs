@@ -21,11 +21,19 @@ namespace Hangman
         private string currentCapital;
         private List<char> currentCapitalLetters = new();
         private List<string> wrongGuesses = new();
-        private bool LetterGuessed
+        private bool LetterGuessedCorrectly
         {
             get
             {
                 if (currentCapitalLetters.Contains(Convert.ToChar(typeYourGuessTextbox.Text.ToUpper()))) return true;
+                else return false;
+            }
+        }
+        private bool WordGuessedCorrectly
+        {
+            get
+            {
+                if (currentCapital.ToUpper() == typeYourGuessTextbox.Text.ToUpper()) return true;
                 else return false;
             }
         }
@@ -59,7 +67,8 @@ namespace Hangman
                         Height = 150,
                         Text = " ",
                         FontSize = 75,
-                        TextAlignment = TextAlignment.Center
+                        TextAlignment = TextAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Bottom
                     };
 
                     GuessingArea.Children.Add(letterLabel);
@@ -76,8 +85,9 @@ namespace Hangman
                         Height = 150,
                         FontSize = 75,
                         Text = "_",
-                        TextAlignment = TextAlignment.Center
-                };
+                        TextAlignment = TextAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Bottom
+                    };
 
                     GuessingArea.Children.Add(letterLabel);
                    Canvas.SetBottom(letterLabel, 0);
@@ -140,7 +150,7 @@ namespace Hangman
                     typeYourGuessTextbox.Text = null;
                 }
 
-                else if (LetterGuessed)
+                else if (LetterGuessedCorrectly)
                 {
                     List<int> indexList = new();
                     for (int i = 0; i < currentCapital.Length; i++)
@@ -156,11 +166,47 @@ namespace Hangman
                         TextBlock letterTextBlock = GuessingArea.Children[indexList[i]] as TextBlock;
                         letterTextBlock.Text = string.Format("{0}", typeYourGuessTextbox.Text.ToUpper());
                     }
+                    typeYourGuessTextbox.Text = null;
                 }
 
                 else
                 {
                     wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
+                    typeYourGuessTextbox.Text = null;
+                    LoseLifePoint();
+                }
+            }
+        }
+        private void CheckTypedWord()
+        {
+            if ((typeYourGuessTextbox.Text).Length != currentCapital.Length || !(typeYourGuessTextbox.Text).All(Char.IsLetter))
+            {
+                MessageBox.Show(string.Format("Type in a {0}-letter word", currentCapital.Length));
+            }
+
+            else
+            {
+                if (wrongGuesses.Contains(typeYourGuessTextbox.Text.ToUpper()))
+                {
+                    MessageBox.Show("Don't make the same mistake twice");
+                    typeYourGuessTextbox.Text = null;
+                }
+
+                else if (WordGuessedCorrectly)
+                {
+                    for (int i = 0; i < GuessingArea.Children.Count; i++)
+                    {
+                        TextBlock letterTextBlock = GuessingArea.Children[i] as TextBlock;
+                        letterTextBlock.Text = string.Format("{0}", currentCapitalLetters[i]);
+                    }
+                    typeYourGuessTextbox.Text = null;
+                }
+
+                else
+                {
+                    typeYourGuessTextbox.Text = null;
+                    wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
+                    LoseLifePoint();
                     LoseLifePoint();
                 }
             }
@@ -168,6 +214,10 @@ namespace Hangman
         private void GuessLetterButton_Click(object sender, RoutedEventArgs e)
         {
             CheckTypedLetter();
+        }
+        private void GuessWordButton_Click(object sender, RoutedEventArgs e)
+        {
+            CheckTypedWord();
         }
     }
 }

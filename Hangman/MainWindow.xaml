@@ -26,9 +26,9 @@
     </adonisControls:AdonisWindow.TitleBarContent>
 
     <StackPanel Margin="20" >
-        <TextBlock Name="hintTextBlock" FontSize="20" FontStyle="Italic" Margin="0 25 0 5" HorizontalAlignment="Center" Text="{Binding MainWindow.currentCountry}" Visibility="Hidden"/>
+        <TextBlock Name="hintTextBlock" FontSize="20" FontStyle="Italic" Margin="0 25 0 5" HorizontalAlignment="Center" Text="{Binding MainWindow.currentCountry}" Visibility="Collapsed"/>
 
-        <Canvas VerticalAlignment="Center" HorizontalAlignment="Stretch" Name="GuessingArea" ClipToBounds="True" Width="800" Height="150" Margin="0 10" IsManipulationEnabled="False"  >
+        <Canvas VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Name="GuessingArea" ClipToBounds="True" Width="800" Height="100" Margin="0 10" IsManipulationEnabled="False"  >
         </Canvas>
 
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -47,7 +47,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Name="GuessLetterButton" Click="GuessLetterButton_Click" Content="Guess letter" Width="175" HorizontalAlignment="Center" Margin="0 5 10 5" VerticalAlignment="Center" FontSize="15"/>
-            <Button Name="GuessWordButton" Content="Guess the whole word" Width="175" Margin="10 5 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+            <Button Name="GuessWordButton" Click="GuessWordButton_Click" Content="Guess the whole word" Width="175" Margin="10 5 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
         </StackPanel>
     </StackPanel>
 </adonisControls:AdonisWindow>
