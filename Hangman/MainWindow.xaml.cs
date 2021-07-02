@@ -19,55 +19,69 @@ namespace Hangman
     public partial class MainWindow
     {
         private string currentCapital;
+        private List<char> currentCapitalLetters = new();
+        private List<string> wrongGuesses = new();
+        private bool LetterGuessed
+        {
+            get
+            {
+                if (currentCapitalLetters.Contains(Convert.ToChar(typeYourGuessTextbox.Text.ToUpper()))) return true;
+                else return false;
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
-            SelectCapitalToGuess();
+            SelectNewCapitalToGuess();
             CreateGuessingArea();
             RefreshLifePoints();
-
         }
-
-        private void SelectCapitalToGuess()
+        private void SelectNewCapitalToGuess()
         {
-            Words words = new Words();
+            Words words = new();
             currentCapital = words.SelectRandomWord(words.GetListOfCapitals());
+            wrongGuesses.Clear();
+            currentCapitalLetters.Clear();
+            currentCapitalLetters.AddRange(currentCapital.ToUpper());
         }
         private void CreateGuessingArea()
         {
-            DataGrid letterGrid = new DataGrid
-            {
-                MinWidth = 20,
-                Height = 100,
-                Name = "letterGrid",
-            };
+            int letterX = 0; 
 
             for (int i = 0; i < currentCapital.Length; i++)
             {
                 if (currentCapital[i] == ' ')
                 {
-                    var col = new DataGridTextColumn
+                    TextBlock letterLabel = new()
                     {
-                        Header = " ",
-                        Width = '*',
-                    };
+                        MinWidth = 20,
+                        Height = 150,
+                        Text = " ",
+                        FontSize = 85,
+                };
+
+                    GuessingArea.Children.Add(letterLabel);
+                    Canvas.SetBottom(letterLabel, 0);
+                    Canvas.SetLeft(letterLabel, letterX);
+                    letterX += 700 / currentCapital.Length;
                 }
 
                 else
                 {
-                    var col = new DataGridTextColumn
+                    TextBlock letterLabel = new()
                     {
-                        Header = "_",
-                        Width = '*',
+                        MinWidth = 20,
+                        Height = 150,
+                        FontSize = 85,
+                        Text = "_",
                     };
 
-                    letterGrid.Columns.Add(col);
+                    GuessingArea.Children.Add(letterLabel);
+                    Canvas.SetBottom(letterLabel, 0);
+                    Canvas.SetLeft(letterLabel, letterX);
+                    letterX += 700 / currentCapital.Length;
                 }
             }
-
-            GuessingArea.Children.Add(letterGrid);
-            Canvas.SetLeft(letterGrid, 25);
-            Canvas.SetTop(letterGrid, 25);
         }
         private void RefreshLifePoints()
         {
@@ -102,8 +116,55 @@ namespace Hangman
 
             else
             {
-                //show messagebox you've died, would you like to restart the game?
+                /*show messagebox you've died, would you like to restart the game?
+                  currentCapitalLetters.Clear();
+                  wrongGuesses.Clear(); */
             }
+        }
+        private void CheckTypedLetter()
+        {
+            if ((typeYourGuessTextbox.Text).Length != 1 || !Char.IsLetter(Char.Parse(typeYourGuessTextbox.Text)))
+            {
+                MessageBox.Show("Enter one letter from English alphabet");
+                typeYourGuessTextbox.Text = null;
+            }
+
+            else
+            {
+                if (wrongGuesses.Contains(typeYourGuessTextbox.Text.ToUpper()))
+                {
+                    MessageBox.Show("Don't make the same mistake twice");
+                    typeYourGuessTextbox.Text = null;
+                }
+
+                else if (LetterGuessed)
+                {
+                    List<int> indexList = new();
+                    for (int i = 0; i < currentCapital.Length; i++)
+                    {
+                        if (currentCapitalLetters[i] == Char.Parse((typeYourGuessTextbox.Text).ToUpper()))
+                        {
+                            indexList.Add(i);
+                        }
+                    }
+
+                    for (int i = 0; i < indexList.Count; i++)
+                    {
+                        TextBlock letterTextBlock = GuessingArea.Children[indexList[i]] as TextBlock;
+                        letterTextBlock.Text = string.Format("{0}", typeYourGuessTextbox.Text.ToUpper());
+                    }
+                }
+
+                else
+                {
+                    wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
+                    LoseLifePoint();
+                }
+            }
+        }
+        private void GuessLetterButton_Click(object sender, RoutedEventArgs e)
+        {
+            CheckTypedLetter();
         }
     }
 }
