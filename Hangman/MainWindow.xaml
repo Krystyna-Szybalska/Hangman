@@ -26,10 +26,10 @@
     </adonisControls:AdonisWindow.TitleBarContent>
 
     <StackPanel Margin="20" >
-        <Canvas Name="GuessingArea" ClipToBounds="True" Width="700" Height="150" >
+        <Canvas HorizontalAlignment="Center" Name="GuessingArea" ClipToBounds="True" Width="700" Height="150" >
         </Canvas>
-        
-        <TextBlock Text="Hint: It's the capital of " Visibility="Collapsed"/>
+
+        <TextBlock Name="hintTextBlock" HorizontalAlignment="Center" Text="Hint: It's the capital of " Visibility="Collapsed"/>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Current life points: " FontSize="30"/>
@@ -40,7 +40,7 @@
             <Image x:Name="HP5" Source="Assets/heart.png" Width="35" Height="35" Stretch="UniformToFill"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="You've already tried those: " FontSize="25" Margin="0 10 0 0"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Text="You've already tried those: " FontSize="25" Margin="0 10 0 0"/>
                 
         <TextBlock Text="Type in your next guess: "  Margin="0 50 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
         <TextBox x:Name="typeYourGuessTextbox" Width="300" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"/>
