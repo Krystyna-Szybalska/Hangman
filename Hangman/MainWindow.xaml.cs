@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdonisUI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -21,7 +22,7 @@ namespace Hangman
     {
         private string currentCapital;
         public List<string> wrongGuesses = new();
-        private List<char> currentCapitalLetters = new();
+        private readonly List<char> currentCapitalLetters = new();
         private bool LetterGuessedCorrectly
         {
             get
@@ -38,10 +39,27 @@ namespace Hangman
                 else return false;
             }
         }
+        private bool TheWordIsGuessed()
+        {
+            for (int i = 0; i < GuessingArea.Children.Count; i++)
+            {
+                TextBlock letterTextBlock = GuessingArea.Children[i] as TextBlock;
+                if (letterTextBlock.Text == "_")
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
+            StartNewGame();
+        }
+        private void StartNewGame()
+        {
+            hintTextBlock.Visibility = Visibility.Collapsed;
             SelectNewCapitalToGuess();
             CreateGuessingArea();
             RefreshLifePoints();
@@ -50,14 +68,16 @@ namespace Hangman
         {
             Words words = new();
             currentCapital = words.SelectRandomWord(words.GetListOfCapitals());
-            hintTextBlock.Text = string.Format("Hint: It's the capital of {0}", words.GetListOfCountries()[words.listIndex]);
+            hintTextBlock.Text = string.Format("Hint: It's the capital of {0}", words.GetListOfCountries()[words.ListIndex]);
             wrongGuesses.Clear();
+            wrongGuessesTextBlock.Text = "";
             currentCapitalLetters.Clear();
             currentCapitalLetters.AddRange(currentCapital.ToUpper());
         }
         private void CreateGuessingArea()
         {
-           int letterX = 400 / (currentCapital.Length+1); 
+            GuessingArea.Children.Clear();
+            int letterX = 400 / (currentCapital.Length+1); 
 
             for (int i = 0; i < currentCapital.Length; i++)
             {
@@ -131,16 +151,23 @@ namespace Hangman
 
             else
             {
-                /*show messagebox you've died, would you like to restart the game?
-                  currentCapitalLetters.Clear();
-                  wrongGuesses.Clear(); */
+                HP5.Visibility = Visibility.Collapsed;
+                AdonisUI.Controls.MessageBoxResult result = AdonisUI.Controls.MessageBox.Show("You've died! Do you want to start a new game?", "Game over!", AdonisUI.Controls.MessageBoxButton.YesNo);
+                if (result == AdonisUI.Controls.MessageBoxResult.Yes)
+                {
+                    StartNewGame();
+                }
+                else if (result == AdonisUI.Controls.MessageBoxResult.No)
+                {
+                    this.Close();
+                }
             }
         }
         private void CheckTypedLetter()
         {
             if ((typeYourGuessTextbox.Text).Length != 1 || !Char.IsLetter(Char.Parse(typeYourGuessTextbox.Text)))
             {
-                MessageBox.Show("Enter one letter from English alphabet");
+                AdonisUI.Controls.MessageBox.Show("Enter one letter from English alphabet", "Info", AdonisUI.Controls.MessageBoxButton.OK);
                 typeYourGuessTextbox.Text = null;
             }
 
@@ -148,12 +175,19 @@ namespace Hangman
             {
                 if (wrongGuesses.Contains(typeYourGuessTextbox.Text.ToUpper()))
                 {
-                    MessageBox.Show("Don't make the same mistake twice");
+                    AdonisUI.Controls.MessageBox.Show("Don't make the same mistake twice!", "Really?", AdonisUI.Controls.MessageBoxButton.OK);
                     typeYourGuessTextbox.Text = null;
                 }
 
                 else if (LetterGuessedCorrectly)
                 {
+                    List<string> guessedLetters = new();
+
+                    if (guessedLetters.Contains((typeYourGuessTextbox.Text).ToUpper()))
+                    {
+                        AdonisUI.Controls.MessageBox.Show("You've already guessed that one.", "Info", AdonisUI.Controls.MessageBoxButton.OK);
+                    }
+
                     List<int> indexList = new();
                     for (int i = 0; i < currentCapital.Length; i++)
                     {
@@ -167,8 +201,22 @@ namespace Hangman
                     {
                         TextBlock letterTextBlock = GuessingArea.Children[indexList[i]] as TextBlock;
                         letterTextBlock.Text = string.Format("{0}", typeYourGuessTextbox.Text.ToUpper());
+                        guessedLetters.Add(letterTextBlock.Text.ToUpper());
                     }
                     typeYourGuessTextbox.Text = null;
+
+                    if (TheWordIsGuessed())
+                    {
+                        AdonisUI.Controls.MessageBoxResult result = AdonisUI.Controls.MessageBox.Show("You've won! Do you want to start a new game?", "Congratulations!", AdonisUI.Controls.MessageBoxButton.YesNo);
+                        if (result == AdonisUI.Controls.MessageBoxResult.Yes)
+                        {
+                            StartNewGame();
+                        }
+                        else if (result == AdonisUI.Controls.MessageBoxResult.No)
+                        {
+                            this.Close();
+                        }
+                    }
                 }
 
                 else
@@ -184,14 +232,14 @@ namespace Hangman
         {
             if ((typeYourGuessTextbox.Text).Length != currentCapital.Length || !(typeYourGuessTextbox.Text).All(Char.IsLetter))
             {
-                MessageBox.Show(string.Format("Type in a {0}-letter word", currentCapital.Length));
+                AdonisUI.Controls.MessageBox.Show(string.Format("Type in a {0}-letter word", currentCapital.Length), "Info", AdonisUI.Controls.MessageBoxButton.OK);
             }
 
             else
             {
                 if (wrongGuesses.Contains(typeYourGuessTextbox.Text.ToUpper()))
                 {
-                    MessageBox.Show("Don't make the same mistake twice");
+                    AdonisUI.Controls.MessageBox.Show("Don't make the same mistake twice!", "Really", AdonisUI.Controls.MessageBoxButton.OK);
                     typeYourGuessTextbox.Text = null;
                 }
 
@@ -203,6 +251,16 @@ namespace Hangman
                         letterTextBlock.Text = string.Format("{0}", currentCapitalLetters[i]);
                     }
                     typeYourGuessTextbox.Text = null;
+
+                    AdonisUI.Controls.MessageBoxResult result = AdonisUI.Controls.MessageBox.Show("You've won! Do you want to start a new game?", "Congratulations!", AdonisUI.Controls.MessageBoxButton.YesNo);
+                    if (result == AdonisUI.Controls.MessageBoxResult.Yes)
+                    {
+                        StartNewGame();
+                    }
+                    else if (result == AdonisUI.Controls.MessageBoxResult.No)
+                    {
+                        this.Close();
+                    }
                 }
 
                 else

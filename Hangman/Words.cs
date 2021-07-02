@@ -9,8 +9,8 @@ namespace Hangman
 {
     class Words
     {
-        private List<string> capitals = new List<string>();
-        private List<string> countries = new List<string>();
+        readonly private List<string> capitals = new();
+        readonly private List<string> countries = new();
         public List<string> GetListOfCapitals()
         {
             return capitals;
@@ -19,7 +19,7 @@ namespace Hangman
         {
             return countries;
         }
-        public int listIndex { get; set; }
+        public int ListIndex { get; set; }
 
         public Words()
         {
@@ -37,7 +37,7 @@ namespace Hangman
             var random = new Random();
             int index = random.Next(list.Count);
             string word = list[index];
-            listIndex = index;
+            ListIndex = index;
             return word;
         }
     }
