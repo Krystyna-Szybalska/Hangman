@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,8 @@ namespace Hangman
     public partial class MainWindow
     {
         private string currentCapital;
+        public List<string> wrongGuesses = new();
         private List<char> currentCapitalLetters = new();
-        private List<string> wrongGuesses = new();
         private bool LetterGuessedCorrectly
         {
             get
@@ -40,6 +41,7 @@ namespace Hangman
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
             SelectNewCapitalToGuess();
             CreateGuessingArea();
             RefreshLifePoints();
@@ -72,7 +74,7 @@ namespace Hangman
                     };
 
                     GuessingArea.Children.Add(letterLabel);
-                    Canvas.SetBottom(letterLabel, 0);
+                    Canvas.SetTop(letterLabel, 0);
                     Canvas.SetLeft(letterLabel, letterX);
                     letterX += 800 / (currentCapital.Length + 1);
                 }
@@ -86,11 +88,11 @@ namespace Hangman
                         FontSize = 75,
                         Text = "_",
                         TextAlignment = TextAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Bottom
-                    };
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                };
 
-                    GuessingArea.Children.Add(letterLabel);
-                   Canvas.SetBottom(letterLabel, 0);
+                   GuessingArea.Children.Add(letterLabel);
+                   Canvas.SetTop(letterLabel, 0);
                    Canvas.SetLeft(letterLabel, letterX);
                    letterX += 800 / (currentCapital.Length + 1);
                 }
@@ -172,6 +174,7 @@ namespace Hangman
                 else
                 {
                     wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
+                    wrongGuessesTextBlock.Text += typeYourGuessTextbox.Text.ToUpper() + ' ';
                     typeYourGuessTextbox.Text = null;
                     LoseLifePoint();
                 }
@@ -206,6 +209,7 @@ namespace Hangman
                 {
                     typeYourGuessTextbox.Text = null;
                     wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
+                    wrongGuessesTextBlock.Text += typeYourGuessTextbox.Text.ToUpper() + ' ';
                     LoseLifePoint();
                     LoseLifePoint();
                 }
