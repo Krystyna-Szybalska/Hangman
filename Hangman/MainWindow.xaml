@@ -26,35 +26,28 @@
     </adonisControls:AdonisWindow.TitleBarContent>
 
     <StackPanel Margin="20" >
-        <Canvas Name="GuessingArea" ClipToBounds="True" Width="700" Height="150">
+        <Canvas Name="GuessingArea" ClipToBounds="True" Width="700" Height="150" >
         </Canvas>
-        <TextBlock Text="Hint: It's the capital of "/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Your life points: "/>
-
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="You've already tried those: "/>
-                
-        </Grid>
-
-        <TextBlock Text="What would you like to guess?"/>
-        <StackPanel Orientation="Horizontal">
-            <Button x:Name="GuessLetterButton" Content="Letter"/>
-            <Button x:Name="GuessWordButton" Content="Whole word"/>
-        </StackPanel>
         
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Type in your next guess: " HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox x:Name="typeYourGuessTextbox" Width="300" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"/>
-            <Button Content="Guess!" Width="150" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"/>
+        <TextBlock Text="Hint: It's the capital of " Visibility="Collapsed"/>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Current life points: " FontSize="30"/>
+            <Image x:Name="HP1" Source="Assets/heart.png" Width="35" Height="35" Stretch="UniformToFill"/>
+            <Image x:Name="HP2" Source="Assets/heart.png" Width="35" Height="35" Stretch="UniformToFill"/>
+            <Image x:Name="HP3" Source="Assets/heart.png" Width="35" Height="35" Stretch="UniformToFill"/>
+            <Image x:Name="HP4" Source="Assets/heart.png" Width="35" Height="35" Stretch="UniformToFill"/>
+            <Image x:Name="HP5" Source="Assets/heart.png" Width="35" Height="35" Stretch="UniformToFill"/>
+        </StackPanel>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="You've already tried those: " FontSize="25" Margin="0 10 0 0"/>
+                
+        <TextBlock Text="Type in your next guess: "  Margin="0 50 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
+        <TextBox x:Name="typeYourGuessTextbox" Width="300" HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="GuessLetterButton" Content="Guess letter" Width="175" HorizontalAlignment="Center" Margin="0 5 10 5" VerticalAlignment="Center" FontSize="15"/>
+            <Button Name="GuessWordButton" Content="Guess the whole word" Width="175" Margin="10 5 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"/>
         </StackPanel>
     </StackPanel>
 </adonisControls:AdonisWindow>

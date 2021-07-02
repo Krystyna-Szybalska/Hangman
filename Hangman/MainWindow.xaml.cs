@@ -24,6 +24,8 @@ namespace Hangman
             InitializeComponent();
             SelectCapitalToGuess();
             CreateGuessingArea();
+            RefreshLifePoints();
+
         }
 
         private void SelectCapitalToGuess()
@@ -31,7 +33,6 @@ namespace Hangman
             Words words = new Words();
             currentCapital = words.SelectRandomWord(words.GetListOfCapitals());
         }
-
         private void CreateGuessingArea()
         {
             DataGrid letterGrid = new DataGrid
@@ -67,6 +68,42 @@ namespace Hangman
             GuessingArea.Children.Add(letterGrid);
             Canvas.SetLeft(letterGrid, 25);
             Canvas.SetTop(letterGrid, 25);
+        }
+        private void RefreshLifePoints()
+        {
+            HP1.Visibility = Visibility.Visible;
+            HP2.Visibility = Visibility.Visible;
+            HP3.Visibility = Visibility.Visible;
+            HP4.Visibility = Visibility.Visible;
+            HP5.Visibility = Visibility.Visible;
+        }
+        private void LoseLifePoint()
+        {
+            if (HP1.Visibility == Visibility.Visible)
+            {
+                HP1.Visibility = Visibility.Collapsed;
+            }
+
+            else if (HP2.Visibility == Visibility.Visible)
+            {
+                HP2.Visibility = Visibility.Collapsed;
+            }
+
+            else if (HP3.Visibility == Visibility.Visible)
+            {
+                HP3.Visibility = Visibility.Collapsed;
+            }
+
+            else if (HP4.Visibility == Visibility.Visible)
+            {
+                HP4.Visibility = Visibility.Collapsed;
+                hintTextBlock.Visibility = Visibility.Visible;
+            }
+
+            else
+            {
+                //show messagebox you've died, would you like to restart the game?
+            }
         }
     }
 }
