@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <None Remove="Assets\heart.png" />
+    <None Remove="Assets\HighScores.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\HighScores.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
