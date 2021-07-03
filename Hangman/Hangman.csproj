@@ -6,4 +6,33 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\heart.png" />
+    <None Remove="Assets\HighScores.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\HighScores.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\heart.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.0" />
+    <PackageReference Include="AdonisUI.NET5" Version="1.17.1" />
+    <PackageReference Include="WPFCustomMessageBox" Version="1.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\countries_and_capitals.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

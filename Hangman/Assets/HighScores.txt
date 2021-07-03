@@ -1,0 +1,2 @@
+﻿HIGH SCORES
+Name | Date | Guessing_Time | Guessing_Tries | Guessed_Word
