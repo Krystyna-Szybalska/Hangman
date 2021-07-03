@@ -26,7 +26,6 @@
   <ItemGroup>
     <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.0" />
     <PackageReference Include="AdonisUI.NET5" Version="1.17.1" />
-    <PackageReference Include="WPFCustomMessageBox" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>

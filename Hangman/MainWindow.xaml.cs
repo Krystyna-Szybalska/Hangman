@@ -56,18 +56,7 @@ namespace Hangman
         private static Stopwatch _stopwatch = new();
         private long _guessingTime;
         private string _guessedWord;
-        private string _highScoreString;
-        public string HighScoreString
-        {
-            get
-            {
-                return _highScoreString;
-            }
-            set
-            {
-                _highScoreString = " | " + DateTime.Today.ToString() + " | " + _guessingTime.ToString() + " | " + _guessingTries + " | " + _guessedWord;
-            }
-        } 
+        List<string> guessedLetters = new();
 
         public MainWindow()
         {
@@ -98,7 +87,7 @@ namespace Hangman
         private void CreateGuessingArea()
         {
             GuessingArea.Children.Clear();
-            int letterX = 400 / (currentCapital.Length+1); 
+            int letterX = 600 / (currentCapital.Length + 1); 
 
             for (int i = 0; i < currentCapital.Length; i++)
             {
@@ -110,8 +99,9 @@ namespace Hangman
                         Height = 150,
                         Text = " ",
                         FontSize = 75,
-                        TextAlignment = TextAlignment.Justify,
-                        VerticalAlignment = VerticalAlignment.Bottom
+                        TextAlignment = TextAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        HorizontalAlignment = HorizontalAlignment.Center
                     };
 
                     GuessingArea.Children.Add(letterLabel);
@@ -128,9 +118,10 @@ namespace Hangman
                         Height = 150,
                         FontSize = 75,
                         Text = "_",
-                        TextAlignment = TextAlignment.Justify,
+                        TextAlignment = TextAlignment.Center,
                         VerticalAlignment = VerticalAlignment.Bottom,
-                };
+                        HorizontalAlignment = HorizontalAlignment.Center
+                    };
 
                    GuessingArea.Children.Add(letterLabel);
                    Canvas.SetTop(letterLabel, 0);
@@ -173,6 +164,7 @@ namespace Hangman
             else
             {
                 _stopwatch.Stop();
+                wrongGuesses.Clear();
                 HP5.Visibility = Visibility.Collapsed;
                 AdonisUI.Controls.MessageBoxResult result = AdonisUI.Controls.MessageBox.Show("You've died! Do you want to start a new game?", "Game over!", AdonisUI.Controls.MessageBoxButton.YesNo);
                 if (result == AdonisUI.Controls.MessageBoxResult.Yes)
@@ -187,6 +179,7 @@ namespace Hangman
         }
         private void CheckTypedLetter()
         {
+            
             if ((typeYourGuessTextbox.Text).Length != 1 || !Char.IsLetter(Char.Parse(typeYourGuessTextbox.Text)))
             {
                 AdonisUI.Controls.MessageBox.Show("Enter one letter from English alphabet", "Info", AdonisUI.Controls.MessageBoxButton.OK);
@@ -203,7 +196,6 @@ namespace Hangman
 
                 else if (LetterGuessed)
                 {
-                    List<string> guessedLetters = new();
 
                     if (guessedLetters.Contains((typeYourGuessTextbox.Text).ToUpper()))
                     {
@@ -224,7 +216,7 @@ namespace Hangman
                         TextBlock letterTextBlock = GuessingArea.Children[indexList[i]] as TextBlock;
                         letterTextBlock.Text = string.Format("{0}", typeYourGuessTextbox.Text.ToUpper());
                         guessedLetters.Add(letterTextBlock.Text.ToUpper());
-                        _guessingTries++;
+                        if (i == 0) { _guessingTries++; }
                     }
                     
                     typeYourGuessTextbox.Text = null;
@@ -243,7 +235,7 @@ namespace Hangman
                 {
                     wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
                     wrongGuessesTextBlock.Visibility = Visibility.Visible;
-                    wrongGuessesList.Text += typeYourGuessTextbox.Text.ToUpper() + ' ';
+                    wrongGuessesList.Text += typeYourGuessTextbox.Text.ToUpper() + "  ";
                     typeYourGuessTextbox.Text = null;
                     _guessingTries++;
                     LoseLifePoint();
@@ -261,7 +253,7 @@ namespace Hangman
             {
                 if (wrongGuesses.Contains(typeYourGuessTextbox.Text.ToUpper()))
                 {
-                    AdonisUI.Controls.MessageBox.Show("Don't make the same mistake twice!", "Really", AdonisUI.Controls.MessageBoxButton.OK);
+                    AdonisUI.Controls.MessageBox.Show("Don't make the same mistake twice!", "Really?", AdonisUI.Controls.MessageBoxButton.OK);
                     typeYourGuessTextbox.Text = null;
                 }
 
@@ -284,10 +276,10 @@ namespace Hangman
 
                 else
                 {
-                    typeYourGuessTextbox.Text = null;
                     wrongGuesses.Add(typeYourGuessTextbox.Text.ToUpper());
+                    wrongGuessesList.Text += typeYourGuessTextbox.Text.ToUpper() + "  ";
+                    typeYourGuessTextbox.Text = null;
                     wrongGuessesTextBlock.Visibility = Visibility.Visible;
-                    wrongGuessesList.Text += typeYourGuessTextbox.Text.ToUpper() + ' ';
                     _guessingTries++;
                     LoseLifePoint();
                     LoseLifePoint();
@@ -316,11 +308,12 @@ namespace Hangman
         }
         private void ShowWinningMessageBox()
         {
+            var highScoreString = " | " + DateTime.Today.ToShortDateString() + " | " + _guessingTime.ToString() + " sek | " + _guessingTries + " | " + _guessedWord + '\n';
 
             AdonisUI.Controls.MessageBoxResult result1 = AdonisUI.Controls.MessageBox.Show("You've won! Do you want to save your score?", "Congratulations!", AdonisUI.Controls.MessageBoxButton.YesNo);
             if (result1 == AdonisUI.Controls.MessageBoxResult.Yes)
             {
-                EnterYourNameWIndow window = new();
+                EnterYourNameWIndow window = new(highScoreString);
                 window.Show();
                 StartNewGame();
             }
