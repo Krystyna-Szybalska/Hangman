@@ -24,7 +24,7 @@
 
         <TextBlock Name="hintTextBlock" FontSize="20" FontStyle="Italic" Margin="0 25 0 5" HorizontalAlignment="Center" Text="{Binding MainWindow.currentCountry}" Visibility="Collapsed"/>
 
-        <Canvas VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Name="GuessingArea" ClipToBounds="True" Width="800" Height="100" Margin="0 20" IsManipulationEnabled="False"/>
+        <Canvas VerticalAlignment="Bottom" HorizontalAlignment="Center" Name="GuessingArea" ClipToBounds="True" Width="800" Height="100" Margin="0 20" IsManipulationEnabled="False"/>
 
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Current life points: " FontSize="30"/>

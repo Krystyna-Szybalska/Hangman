@@ -17,9 +17,12 @@ namespace Hangman
 {
     public partial class EnterYourNameWIndow
     {
-        public EnterYourNameWIndow()
+        public string HighScore { get; }
+
+        public EnterYourNameWIndow(string highScore)
         {
             InitializeComponent();
+            HighScore = highScore;
         }
 
         private void SaveToHighScoreButton_Click(object sender, RoutedEventArgs e)
@@ -33,13 +36,12 @@ namespace Hangman
 
         private void SaveScore()
         {
-            MainWindow window = new();
-            string docPath = @"Assets\HighScores.txt";
-            string text = EnterYourNameTextBox.Text + window.HighScoreString;
+            string path = @"./Assets/HighScores.txt";
+            string text = EnterYourNameTextBox.Text + HighScore;
 
-            StreamWriter stream = new(docPath, true); 
-            stream.WriteLine(text);
-            AdonisUI.Controls.MessageBox.Show("Your name should be from 1 to 20 characters long", "Info", AdonisUI.Controls.MessageBoxButton.OK);
+            File.AppendAllText(path, text);
+
+            AdonisUI.Controls.MessageBox.Show("Saved", "Info", AdonisUI.Controls.MessageBoxButton.OK);
             this.Close();
         }
     }
