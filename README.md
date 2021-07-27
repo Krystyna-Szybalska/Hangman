@@ -1,2 +1,3 @@
 # Hangman
-Simple Hangmen Game implementation developed during the Motorla Academy recruitment process
+Simple Hangmen Game implementation where you guess capitals of different countries
+![Z1](Assets/Hangman.png)
